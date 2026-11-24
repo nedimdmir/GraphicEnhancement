@@ -20,7 +20,7 @@ int main(int argc, char** argv) {
 
     const struct { const char* code; const char* play; } languages[] = {
         {"es", "Reproducir"}, {"fr", "Lire"}, {"de", "Abspielen"},
-        {"pt-BR", "Reproduzir"}, {"ru", "Воспроизвести"}, {"tr", "Oynat"}, {"pl", "Odtwórz"}, {"it", "Riproduci"}
+        {"pt-BR", "Reproduzir"}, {"ru", "Воспроизвести"}, {"tr", "Oynat"}, {"id", "Putar"}, {"pl", "Odtwórz"}, {"it", "Riproduci"}
     };
     for (const auto& language : languages) {
         const auto code = QString::fromLatin1(language.code);

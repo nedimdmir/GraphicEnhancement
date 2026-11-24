@@ -160,7 +160,7 @@ QString translatePieces(const CatalogTranslator& t, const QString& s, int depth)
 
 QString resolve(const QString& preference) {
     static const QStringList known{QStringLiteral("zh-CN"), QStringLiteral("zh-TW"), QStringLiteral("en"), QStringLiteral("ja"), QStringLiteral("ko"),
-                                   QStringLiteral("es"), QStringLiteral("fr"), QStringLiteral("de"), QStringLiteral("pt-BR"), QStringLiteral("ru"), QStringLiteral("tr"), QStringLiteral("pl"), QStringLiteral("it")};
+                                   QStringLiteral("es"), QStringLiteral("fr"), QStringLiteral("de"), QStringLiteral("pt-BR"), QStringLiteral("ru"), QStringLiteral("tr"), QStringLiteral("id"), QStringLiteral("pl"), QStringLiteral("it")};
     if (known.contains(preference)) return preference;
     const QLocale system = QLocale::system();
     if (system.language() == QLocale::Chinese) {

@@ -77,7 +77,7 @@ DialogLayer {
         {id: "zh-CN", label: qsTr("简体中文")}, {id: "zh-TW", label: qsTr("繁體中文")},
         {id: "en", label: "English"}, {id: "ja", label: "日本語"}, {id: "ko", label: "한국어"},
         {id: "fr", label: "Français"}, {id: "de", label: "Deutsch"}, {id: "es", label: "Español"},
-        {id: "pt-BR", label: "Português (Brasil)"}, {id: "ru", label: "Русский"}, {id: "tr", label: "Türkçe"}, {id: "pl", label: "Polski"},
+        {id: "pt-BR", label: "Português (Brasil)"}, {id: "ru", label: "Русский"}, {id: "tr", label: "Türkçe"}, {id: "id", label: "Bahasa Indonesia"}, {id: "pl", label: "Polski"},
         {id: "it", label: "Italiano"}, {id: "ar", label: "العربية"},
         {id: "th", label: "ไทย"}, {id: "vi", label: "Tiếng Việt"}
     ]

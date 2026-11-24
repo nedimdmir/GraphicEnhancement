@@ -333,6 +333,7 @@ VPage {
                                     { id: "pt-BR", label: "Português (Brasil)" },
                                     { id: "ru", label: "Русский" },
                                     { id: "tr", label: "Türkçe" },
+                                    { id: "id", label: "Bahasa Indonesia" },
                                     { id: "pl", label: "Polski" },
                                     { id: "it", label: "Italiano" }
                                 ]
