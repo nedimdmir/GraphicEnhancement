@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Graphic Enhancement</title>
+<meta name="description" content="Real-time GPU video enhancement for Windows: super resolution, denoising, HDR, frame generation, capture and console streaming.">
+<link rel="icon" href="icon.png">
+<style>
+:root{--bg:#0f0b1a;--panel:#1a1430;--text:#f1edf9;--muted:#b6add0;--line:#2e2550;--accent:#ec6aa0;--accent2:#9a6bd8;--warm:#f7a07c}
+@media (prefers-color-scheme: light){:root{--bg:#faf8fd;--panel:#ffffff;--text:#1d1730;--muted:#5d5576;--line:#e3dcef;--accent:#c93d7d;--accent2:#7a4cc0;--warm:#d8693f}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:0 16px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700}
+.brand img{width:32px;height:32px}
+select{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:6px 8px;font:inherit;max-width:180px}
+.hero{text-align:center;padding:40px 0 24px}
+.hero img{width:120px;height:120px}
+h1{font-size:clamp(32px,6vw,52px);line-height:1.1;margin:16px 0 8px;background:linear-gradient(180deg,var(--accent2),var(--accent) 55%,var(--warm));-webkit-background-clip:text;background-clip:text;color:transparent}
+.tag{font-size:clamp(17px,2.4vw,21px);margin:0 0 6px}
+.chips{color:var(--muted);margin:0 0 20px}
+.intro{max-width:680px;margin:0 auto 24px;color:var(--muted)}
+.btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+a.btn{display:inline-block;padding:11px 18px;border-radius:10px;text-decoration:none;font-weight:600}
+a.primary{background:linear-gradient(90deg,var(--accent2),var(--accent));color:#fff}
+a.ghost{border:1px solid var(--line);color:var(--text)}
+.note{max-width:680px;margin:14px auto 0;font-size:14px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:32px 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+.card h3{margin:0 0 6px;font-size:17px}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.box{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--warm);border-radius:10px;padding:14px 16px;margin:0 0 16px;font-size:15px}
+footer{color:var(--muted);font-size:14px;padding:24px 0 40px;border-top:1px solid var(--line);margin-top:24px}
+footer a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand"><img src="icon.png" alt="">Graphic Enhancement</div>
+    <label><span class="sr" style="position:absolute;left:-9999px" data-i="lang">Language</span>
+      <select id="lang" aria-label="Language"></select></label>
+  </header>
+
+  <section class="hero">
+    <img src="icon.png" alt="Graphic Enhancement">
+    <h1>Graphic Enhancement</h1>
+    <p class="tag" data-i="tagline"></p>
+    <p class="chips" data-i="chips"></p>
+    <p class="intro" data-i="intro"></p>
+    <div class="btns">
+      <a class="btn primary" href="https://github.com/nedimdmir/GraphicEnhancement/actions/workflows/windows-build.yml" data-i="download"></a>
+      <a class="btn ghost" href="https://github.com/nedimdmir/GraphicEnhancement" data-i="source"></a>
+    </div>
+    <p class="note" data-i="dlnote"></p>
+  </section>
+
+  <section class="grid">
+    <div class="card"><h3 data-i="f1t"></h3><p data-i="f1d"></p></div>
+    <div class="card"><h3 data-i="f2t"></h3><p data-i="f2d"></p></div>
+    <div class="card"><h3 data-i="f3t"></h3><p data-i="f3d"></p></div>
+    <div class="card"><h3 data-i="f4t"></h3><p data-i="f4d"></p></div>
+    <div class="card"><h3 data-i="f5t"></h3><p data-i="f5d"></p></div>
+    <div class="card"><h3 data-i="f6t"></h3><p data-i="f6d"></p></div>
+  </section>
+
+  <div class="box" data-i="runtime"></div>
+
+  <footer>
+    <p data-i="notice"></p>
+    <p>GNU GPL v3 · <a href="https://github.com/nedimdmir/GraphicEnhancement/blob/main/NOTICE.md">NOTICE</a> · <a href="https://github.com/nedimdmir/GraphicEnhancement/blob/main/THIRD_PARTY_NOTICES.md">Third-party notices</a></p>
+  </footer>
+</div>
+
+<script>
+const T = {
+ en: {name:"English", tagline:"Real-time GPU video enhancement for Windows", chips:"Super resolution · Denoising · HDR · Frame generation · Capture · PS5 / Xbox / PC streaming",
+  intro:"Turns local video, capture cards and game streaming into one real-time GPU enhancement pipeline. Runs on Windows 11 with DirectX 12 on NVIDIA and AMD GPUs.",
+  download:"Download (latest build)", source:"Source code", dlnote:"Open the latest successful build and download the ZIP under Artifacts (GitHub sign-in required). Extract it and run graphicenhancement_qml_ui.exe.",
+  f1t:"Many sources", f1d:"Video files, capture cards, PS5 Remote Play, PC streaming (Sunshine), Xbox (experimental) and screen capture.",
+  f2t:"AI enhancement", f2d:"Super resolution (DLSS, XeSS, FSR, NIS, VideoSR), layered denoising, DLSS 5 neural rendering and RTX Video HDR.",
+  f3t:"Frame generation", f3d:"DLSS FG, NVIDIA VFG, FSR, XeSS, RIFE and AMD FRC with display sync and VRR.",
+  f4t:"Low input lag", f4d:"Starts with a 1-frame presentation queue and NVIDIA Low Latency (Reflex) where available.",
+  f5t:"Edit and export", f5d:"List and node editors, colour grading with curves and LUTs, export queue with MP4/MKV and multiple tracks.",
+  f6t:"14 languages", f6d:"The interface follows your choice; captions can be translated live.",
+  runtime:"NVIDIA/AMD proprietary runtimes and AI models (DLSS, VFG, RTX Video, FSR, AMD NR) are not included in the build. Without them playback, colour and display features work, but those enhancements are unavailable.",
+  notice:"Graphic Enhancement is a modified version of Veyra (Likely7/Veyra-NRVideo), released under the GNU GPL v3."},
+ tr: {name:"Türkçe", tagline:"Windows için gerçek zamanlı GPU video iyileştirme", chips:"Süper çözünürlük · Gürültü giderme · HDR · Kare üretimi · Yakalama · PS5 / Xbox / PC yayını",
+  intro:"Video dosyalarını, yakalama kartlarını ve oyun yayınlarını tek bir gerçek zamanlı GPU iyileştirme hattında birleştirir. Windows 11 üzerinde DirectX 12 ile NVIDIA ve AMD ekran kartlarında çalışır.",
+  download:"İndir (son derleme)", source:"Kaynak kod", dlnote:"Son başarılı derlemeyi açın ve Artifacts altındaki ZIP'i indirin (GitHub oturumu gerekir). Çıkarıp graphicenhancement_qml_ui.exe dosyasını çalıştırın.",
+  f1t:"Birçok kaynak", f1d:"Video dosyaları, yakalama kartları, PS5 Remote Play, PC yayını (Sunshine), Xbox (deneysel) ve ekran yakalama.",
+  f2t:"Yapay zekâ ile iyileştirme", f2d:"Süper çözünürlük (DLSS, XeSS, FSR, NIS, VideoSR), katmanlı gürültü giderme, DLSS 5 nöral işleme ve RTX Video HDR.",
+  f3t:"Kare üretimi", f3d:"Ekran senkronu ve VRR ile DLSS FG, NVIDIA VFG, FSR, XeSS, RIFE ve AMD FRC.",
+  f4t:"Düşük input lag", f4d:"1 karelik sunum kuyruğu ve destekleyen sistemlerde NVIDIA Düşük Gecikme (Reflex) ile açılır.",
+  f5t:"Düzenleme ve dışa aktarma", f5d:"Liste ve düğüm düzenleyicileri, eğri ve LUT ile renk düzenleme, MP4/MKV ve çoklu parçalı dışa aktarma kuyruğu.",
+  f6t:"14 dil", f6d:"Arayüz seçtiğiniz dili kullanır; altyazılar canlı çevrilebilir.",
+  runtime:"NVIDIA/AMD'nin kapalı kaynak runtime'ları ve AI modelleri (DLSS, VFG, RTX Video, FSR, AMD NR) derlemeye dahil değildir. Bunlar olmadan oynatma, renk ve ekran özellikleri çalışır ama bu iyileştirmeler kullanılamaz.",
+  notice:"Graphic Enhancement, GNU GPL v3 lisanslı Veyra (Likely7/Veyra-NRVideo) projesinin değiştirilmiş bir sürümüdür."},
+ "zh-CN": {name:"简体中文", tagline:"Windows 实时 GPU 视频增强", chips:"超分辨率 · 降噪 · HDR · 补帧 · 采集 · PS5 / Xbox / PC 串流",
+  intro:"把本地视频、采集卡和游戏串流整合到同一条实时 GPU 增强管线。在 Windows 11 上通过 DirectX 12 运行于 NVIDIA 和 AMD 显卡。",
+  download:"下载（最新构建）", source:"源代码", dlnote:"打开最近一次成功的构建，在 Artifacts 下下载 ZIP（需要登录 GitHub）。解压后运行 graphicenhancement_qml_ui.exe。",
+  f1t:"多种来源", f1d:"视频文件、采集卡、PS5 远程游玩、PC 串流（Sunshine）、Xbox（实验性）和屏幕捕获。",
+  f2t:"AI 增强", f2d:"超分辨率（DLSS、XeSS、FSR、NIS、VideoSR）、多层降噪、DLSS 5 神经渲染和 RTX Video HDR。",
+  f3t:"补帧", f3d:"DLSS FG、NVIDIA VFG、FSR、XeSS、RIFE 和 AMD FRC，支持显示同步和可变刷新。",
+  f4t:"低输入延迟", f4d:"默认使用 1 帧呈现队列，并在可用时开启 NVIDIA 低延迟（Reflex）。",
+  f5t:"编辑与导出", f5d:"列表与节点编辑器，曲线和 LUT 调色，支持 MP4/MKV 和多轨道的导出队列。",
+  f6t:"14 种语言", f6d:"界面跟随你的选择；字幕可实时翻译。",
+  runtime:"构建中不包含 NVIDIA/AMD 专有运行库和 AI 模型（DLSS、VFG、RTX Video、FSR、AMD NR）。没有它们时播放、调色和显示功能可用，但这些增强不可用。",
+  notice:"Graphic Enhancement 是 Veyra（Likely7/Veyra-NRVideo）的修改版本，以 GNU GPL v3 发布。"},
+ "zh-TW": {name:"繁體中文", tagline:"Windows 即時 GPU 影片增強", chips:"超解析度 · 降噪 · HDR · 補幀 · 擷取 · PS5 / Xbox / PC 串流",
+  intro:"把本機影片、擷取卡和遊戲串流整合到同一條即時 GPU 增強管線。在 Windows 11 上透過 DirectX 12 執行於 NVIDIA 和 AMD 顯示卡。",
+  download:"下載（最新建置）", source:"原始碼", dlnote:"開啟最近一次成功的建置，在 Artifacts 下下載 ZIP（需要登入 GitHub）。解壓縮後執行 graphicenhancement_qml_ui.exe。",
+  f1t:"多種來源", f1d:"影片檔、擷取卡、PS5 遙控遊玩、PC 串流（Sunshine）、Xbox（實驗性）和螢幕擷取。",
+  f2t:"AI 增強", f2d:"超解析度（DLSS、XeSS、FSR、NIS、VideoSR）、多層降噪、DLSS 5 神經渲染和 RTX Video HDR。",
+  f3t:"補幀", f3d:"DLSS FG、NVIDIA VFG、FSR、XeSS、RIFE 和 AMD FRC，支援顯示同步和可變更新率。",
+  f4t:"低輸入延遲", f4d:"預設使用 1 幀呈現佇列，並在可用時開啟 NVIDIA 低延遲（Reflex）。",
+  f5t:"編輯與匯出", f5d:"清單與節點編輯器，曲線和 LUT 調色，支援 MP4/MKV 和多軌的匯出佇列。",
+  f6t:"14 種語言", f6d:"介面跟隨你的選擇；字幕可即時翻譯。",
+  runtime:"建置中不包含 NVIDIA/AMD 專有執行庫和 AI 模型（DLSS、VFG、RTX Video、FSR、AMD NR）。沒有它們時播放、調色和顯示功能可用，但這些增強無法使用。",
+  notice:"Graphic Enhancement 是 Veyra（Likely7/Veyra-NRVideo）的修改版本，以 GNU GPL v3 發布。"},
+ ja: {name:"日本語", tagline:"Windows 向けリアルタイム GPU 映像補正", chips:"超解像 · ノイズ除去 · HDR · フレーム生成 · キャプチャ · PS5 / Xbox / PC ストリーミング",
+  intro:"ローカル動画、キャプチャカード、ゲームストリーミングを 1 つのリアルタイム GPU 補正パイプラインにまとめます。Windows 11 の DirectX 12 上で NVIDIA と AMD の GPU に対応します。",
+  download:"ダウンロード（最新ビルド）", source:"ソースコード", dlnote:"最新の成功したビルドを開き、Artifacts から ZIP をダウンロードしてください（GitHub へのサインインが必要）。展開して graphicenhancement_qml_ui.exe を実行します。",
+  f1t:"多彩な入力", f1d:"動画ファイル、キャプチャカード、PS5 リモートプレイ、PC ストリーミング（Sunshine）、Xbox（実験的）、画面キャプチャ。",
+  f2t:"AI 補正", f2d:"超解像（DLSS、XeSS、FSR、NIS、VideoSR）、多層ノイズ除去、DLSS 5 ニューラルレンダリング、RTX Video HDR。",
+  f3t:"フレーム生成", f3d:"DLSS FG、NVIDIA VFG、FSR、XeSS、RIFE、AMD FRC。ディスプレイ同期と VRR に対応。",
+  f4t:"低入力遅延", f4d:"1 フレームの表示キューと、利用可能な環境では NVIDIA 低遅延（Reflex）で起動します。",
+  f5t:"編集と書き出し", f5d:"リスト／ノードエディタ、カーブと LUT によるカラー調整、MP4/MKV と複数トラックの書き出しキュー。",
+  f6t:"14 言語", f6d:"インターフェースは選んだ言語で表示され、字幕はリアルタイムで翻訳できます。",
+  runtime:"NVIDIA/AMD 独自のランタイムと AI モデル（DLSS、VFG、RTX Video、FSR、AMD NR）はビルドに含まれていません。これらがなくても再生・色・表示機能は動作しますが、これらの補正は使用できません。",
+  notice:"Graphic Enhancement は GNU GPL v3 で公開されている Veyra（Likely7/Veyra-NRVideo）の改変版です。"},
+ ko: {name:"한국어", tagline:"Windows용 실시간 GPU 영상 향상", chips:"초해상도 · 노이즈 제거 · HDR · 프레임 생성 · 캡처 · PS5 / Xbox / PC 스트리밍",
+  intro:"로컬 영상, 캡처 카드, 게임 스트리밍을 하나의 실시간 GPU 향상 파이프라인으로 묶습니다. Windows 11의 DirectX 12에서 NVIDIA와 AMD GPU로 실행됩니다.",
+  download:"다운로드 (최신 빌드)", source:"소스 코드", dlnote:"가장 최근에 성공한 빌드를 열고 Artifacts에서 ZIP을 내려받으세요(GitHub 로그인 필요). 압축을 풀고 graphicenhancement_qml_ui.exe를 실행합니다.",
+  f1t:"다양한 소스", f1d:"동영상 파일, 캡처 카드, PS5 리모트 플레이, PC 스트리밍(Sunshine), Xbox(실험적), 화면 캡처.",
+  f2t:"AI 향상", f2d:"초해상도(DLSS, XeSS, FSR, NIS, VideoSR), 다중 레이어 노이즈 제거, DLSS 5 뉴럴 렌더링, RTX Video HDR.",
+  f3t:"프레임 생성", f3d:"디스플레이 동기화와 VRR을 지원하는 DLSS FG, NVIDIA VFG, FSR, XeSS, RIFE, AMD FRC.",
+  f4t:"낮은 입력 지연", f4d:"1프레임 표시 대기열과, 지원되는 경우 NVIDIA 저지연(Reflex)으로 시작합니다.",
+  f5t:"편집과 내보내기", f5d:"리스트·노드 편집기, 커브와 LUT 색 보정, MP4/MKV 및 다중 트랙 내보내기 대기열.",
+  f6t:"14개 언어", f6d:"인터페이스는 선택한 언어로 표시되며 자막을 실시간 번역할 수 있습니다.",
+  runtime:"NVIDIA/AMD 독점 런타임과 AI 모델(DLSS, VFG, RTX Video, FSR, AMD NR)은 빌드에 포함되어 있지 않습니다. 이들이 없어도 재생·색상·디스플레이 기능은 동작하지만 해당 향상 기능은 사용할 수 없습니다.",
+  notice:"Graphic Enhancement는 GNU GPL v3로 배포되는 Veyra(Likely7/Veyra-NRVideo)의 수정 버전입니다."},
+ es: {name:"Español", tagline:"Mejora de vídeo por GPU en tiempo real para Windows", chips:"Superresolución · Reducción de ruido · HDR · Generación de fotogramas · Captura · Streaming de PS5 / Xbox / PC",
+  intro:"Reúne vídeo local, capturadoras y streaming de juegos en una sola cadena de mejora por GPU en tiempo real. Funciona en Windows 11 con DirectX 12 en GPU NVIDIA y AMD.",
+  download:"Descargar (última compilación)", source:"Código fuente", dlnote:"Abre la última compilación correcta y descarga el ZIP en Artifacts (requiere iniciar sesión en GitHub). Extráelo y ejecuta graphicenhancement_qml_ui.exe.",
+  f1t:"Muchas fuentes", f1d:"Archivos de vídeo, capturadoras, Remote Play de PS5, streaming de PC (Sunshine), Xbox (experimental) y captura de pantalla.",
+  f2t:"Mejora con IA", f2d:"Superresolución (DLSS, XeSS, FSR, NIS, VideoSR), reducción de ruido por capas, renderizado neuronal DLSS 5 y RTX Video HDR.",
+  f3t:"Generación de fotogramas", f3d:"DLSS FG, NVIDIA VFG, FSR, XeSS, RIFE y AMD FRC con sincronización de pantalla y VRR.",
+  f4t:"Baja latencia de entrada", f4d:"Arranca con una cola de presentación de 1 fotograma y NVIDIA Low Latency (Reflex) cuando está disponible.",
+  f5t:"Edición y exportación", f5d:"Editores de lista y de nodos, etalonaje con curvas y LUT, cola de exportación con MP4/MKV y varias pistas.",
+  f6t:"14 idiomas", f6d:"La interfaz usa el idioma que elijas; los subtítulos se pueden traducir en directo.",
+  runtime:"Los runtimes propietarios y modelos de IA de NVIDIA/AMD (DLSS, VFG, RTX Video, FSR, AMD NR) no se incluyen en la compilación. Sin ellos funcionan la reproducción, el color y la pantalla, pero esas mejoras no están disponibles.",
+  notice:"Graphic Enhancement es una versión modificada de Veyra (Likely7/Veyra-NRVideo), publicada bajo la GNU GPL v3."},
+ fr: {name:"Français", tagline:"Amélioration vidéo GPU en temps réel pour Windows", chips:"Super-résolution · Débruitage · HDR · Génération d'images · Capture · Streaming PS5 / Xbox / PC",
+  intro:"Réunit vidéos locales, cartes d'acquisition et streaming de jeux dans une seule chaîne d'amélioration GPU en temps réel. Fonctionne sous Windows 11 avec DirectX 12 sur GPU NVIDIA et AMD.",
+  download:"Télécharger (dernière version)", source:"Code source", dlnote:"Ouvrez la dernière compilation réussie et téléchargez le ZIP sous Artifacts (connexion GitHub requise). Décompressez-le et lancez graphicenhancement_qml_ui.exe.",
+  f1t:"Nombreuses sources", f1d:"Fichiers vidéo, cartes d'acquisition, PS5 Remote Play, streaming PC (Sunshine), Xbox (expérimental) et capture d'écran.",
+  f2t:"Amélioration par IA", f2d:"Super-résolution (DLSS, XeSS, FSR, NIS, VideoSR), débruitage multicouche, rendu neuronal DLSS 5 et RTX Video HDR.",
+  f3t:"Génération d'images", f3d:"DLSS FG, NVIDIA VFG, FSR, XeSS, RIFE et AMD FRC avec synchronisation d'affichage et VRR.",
+  f4t:"Faible latence d'entrée", f4d:"Démarre avec une file de présentation d'une image et NVIDIA Low Latency (Reflex) si disponible.",
+  f5t:"Édition et export", f5d:"Éditeurs liste et nœuds, étalonnage par courbes et LUT, file d'export MP4/MKV avec plusieurs pistes.",
+  f6t:"14 langues", f6d:"L'interface suit votre choix ; les sous-titres peuvent être traduits en direct.",
+  runtime:"Les runtimes propriétaires et modèles d'IA NVIDIA/AMD (DLSS, VFG, RTX Video, FSR, AMD NR) ne sont pas inclus. Sans eux, la lecture, la couleur et l'affichage fonctionnent, mais ces améliorations sont indisponibles.",
+  notice:"Graphic Enhancement est une version modifiée de Veyra (Likely7/Veyra-NRVideo), publiée sous GNU GPL v3."},
+ de: {name:"Deutsch", tagline:"Echtzeit-GPU-Videoverbesserung für Windows", chips:"Super-Resolution · Rauschunterdrückung · HDR · Frame-Generierung · Aufnahme · PS5- / Xbox- / PC-Streaming",
+  intro:"Vereint lokale Videos, Capture-Karten und Spiele-Streaming in einer Echtzeit-GPU-Verbesserungskette. Läuft unter Windows 11 mit DirectX 12 auf NVIDIA- und AMD-GPUs.",
+  download:"Herunterladen (neuester Build)", source:"Quellcode", dlnote:"Öffne den neuesten erfolgreichen Build und lade das ZIP unter Artifacts herunter (GitHub-Anmeldung erforderlich). Entpacken und graphicenhancement_qml_ui.exe starten.",
+  f1t:"Viele Quellen", f1d:"Videodateien, Capture-Karten, PS5 Remote Play, PC-Streaming (Sunshine), Xbox (experimentell) und Bildschirmaufnahme.",
+  f2t:"KI-Verbesserung", f2d:"Super-Resolution (DLSS, XeSS, FSR, NIS, VideoSR), mehrschichtige Rauschunterdrückung, DLSS 5 Neural Rendering und RTX Video HDR.",
+  f3t:"Frame-Generierung", f3d:"DLSS FG, NVIDIA VFG, FSR, XeSS, RIFE und AMD FRC mit Anzeigesynchronisierung und VRR.",
+  f4t:"Geringe Eingabelatenz", f4d:"Startet mit einer 1-Bild-Präsentationswarteschlange und, wo verfügbar, NVIDIA Low Latency (Reflex).",
+  f5t:"Bearbeiten und Exportieren", f5d:"Listen- und Node-Editor, Farbkorrektur mit Kurven und LUTs, Exportwarteschlange mit MP4/MKV und mehreren Spuren.",
+  f6t:"14 Sprachen", f6d:"Die Oberfläche folgt deiner Wahl; Untertitel lassen sich live übersetzen.",
+  runtime:"Proprietäre NVIDIA/AMD-Runtimes und KI-Modelle (DLSS, VFG, RTX Video, FSR, AMD NR) sind nicht enthalten. Ohne sie funktionieren Wiedergabe, Farbe und Anzeige, diese Verbesserungen jedoch nicht.",
+  notice:"Graphic Enhancement ist eine veränderte Version von Veyra (Likely7/Veyra-NRVideo), veröffentlicht unter der GNU GPL v3."},
+ "pt-BR": {name:"Português (Brasil)", tagline:"Aprimoramento de vídeo por GPU em tempo real para Windows", chips:"Super-resolução · Redução de ruído · HDR · Geração de quadros · Captura · Streaming de PS5 / Xbox / PC",
+  intro:"Reúne vídeos locais, placas de captura e streaming de jogos em uma única cadeia de aprimoramento por GPU em tempo real. Roda no Windows 11 com DirectX 12 em GPUs NVIDIA e AMD.",
+  download:"Baixar (build mais recente)", source:"Código-fonte", dlnote:"Abra o build mais recente bem-sucedido e baixe o ZIP em Artifacts (é preciso entrar no GitHub). Extraia e execute graphicenhancement_qml_ui.exe.",
+  f1t:"Muitas fontes", f1d:"Arquivos de vídeo, placas de captura, PS5 Remote Play, streaming de PC (Sunshine), Xbox (experimental) e captura de tela.",
+  f2t:"Aprimoramento com IA", f2d:"Super-resolução (DLSS, XeSS, FSR, NIS, VideoSR), redução de ruído em camadas, renderização neural DLSS 5 e RTX Video HDR.",
+  f3t:"Geração de quadros", f3d:"DLSS FG, NVIDIA VFG, FSR, XeSS, RIFE e AMD FRC com sincronização de tela e VRR.",
+  f4t:"Baixo input lag", f4d:"Inicia com fila de apresentação de 1 quadro e NVIDIA Low Latency (Reflex) quando disponível.",
+  f5t:"Edição e exportação", f5d:"Editores de lista e de nós, correção de cor com curvas e LUTs, fila de exportação com MP4/MKV e várias faixas.",
+  f6t:"14 idiomas", f6d:"A interface segue sua escolha; legendas podem ser traduzidas ao vivo.",
+  runtime:"Runtimes proprietários e modelos de IA da NVIDIA/AMD (DLSS, VFG, RTX Video, FSR, AMD NR) não estão incluídos. Sem eles, reprodução, cor e tela funcionam, mas esses aprimoramentos ficam indisponíveis.",
+  notice:"Graphic Enhancement é uma versão modificada do Veyra (Likely7/Veyra-NRVideo), publicada sob a GNU GPL v3."},
+ ru: {name:"Русский", tagline:"Улучшение видео на GPU в реальном времени для Windows", chips:"Суперразрешение · Шумоподавление · HDR · Генерация кадров · Захват · Стриминг PS5 / Xbox / ПК",
+  intro:"Объединяет локальное видео, карты захвата и игровой стриминг в единый конвейер улучшения на GPU в реальном времени. Работает в Windows 11 с DirectX 12 на видеокартах NVIDIA и AMD.",
+  download:"Скачать (последняя сборка)", source:"Исходный код", dlnote:"Откройте последнюю успешную сборку и скачайте ZIP в разделе Artifacts (нужен вход в GitHub). Распакуйте и запустите graphicenhancement_qml_ui.exe.",
+  f1t:"Много источников", f1d:"Видеофайлы, карты захвата, PS5 Remote Play, стриминг с ПК (Sunshine), Xbox (экспериментально) и захват экрана.",
+  f2t:"Улучшение с ИИ", f2d:"Суперразрешение (DLSS, XeSS, FSR, NIS, VideoSR), многослойное шумоподавление, нейронный рендеринг DLSS 5 и RTX Video HDR.",
+  f3t:"Генерация кадров", f3d:"DLSS FG, NVIDIA VFG, FSR, XeSS, RIFE и AMD FRC с синхронизацией экрана и VRR.",
+  f4t:"Низкая задержка ввода", f4d:"Запускается с очередью вывода в 1 кадр и NVIDIA Low Latency (Reflex), где доступно.",
+  f5t:"Редактирование и экспорт", f5d:"Редакторы списка и узлов, цветокоррекция кривыми и LUT, очередь экспорта MP4/MKV с несколькими дорожками.",
+  f6t:"14 языков", f6d:"Интерфейс использует выбранный язык; субтитры можно переводить в реальном времени.",
+  runtime:"Проприетарные среды выполнения и ИИ-модели NVIDIA/AMD (DLSS, VFG, RTX Video, FSR, AMD NR) в сборку не входят. Без них работают воспроизведение, цвет и вывод, но эти улучшения недоступны.",
+  notice:"Graphic Enhancement — изменённая версия Veyra (Likely7/Veyra-NRVideo), распространяемая по GNU GPL v3."},
+ it: {name:"Italiano", tagline:"Miglioramento video GPU in tempo reale per Windows", chips:"Super risoluzione · Riduzione rumore · HDR · Generazione fotogrammi · Acquisizione · Streaming PS5 / Xbox / PC",
+  intro:"Riunisce video locali, schede di acquisizione e streaming di giochi in un'unica pipeline di miglioramento GPU in tempo reale. Funziona su Windows 11 con DirectX 12 su GPU NVIDIA e AMD.",
+  download:"Scarica (ultima build)", source:"Codice sorgente", dlnote:"Apri l'ultima build riuscita e scarica lo ZIP in Artifacts (serve l'accesso a GitHub). Estrailo ed esegui graphicenhancement_qml_ui.exe.",
+  f1t:"Molte sorgenti", f1d:"File video, schede di acquisizione, Riproduzione remota PS5, streaming PC (Sunshine), Xbox (sperimentale) e acquisizione schermo.",
+  f2t:"Miglioramento con IA", f2d:"Super risoluzione (DLSS, XeSS, FSR, NIS, VideoSR), riduzione rumore a livelli, rendering neurale DLSS 5 e RTX Video HDR.",
+  f3t:"Generazione fotogrammi", f3d:"DLSS FG, NVIDIA VFG, FSR, XeSS, RIFE e AMD FRC con sincronizzazione display e VRR.",
+  f4t:"Bassa latenza di input", f4d:"Parte con una coda di presentazione di 1 fotogramma e NVIDIA Low Latency (Reflex) dove disponibile.",
+  f5t:"Modifica ed esportazione", f5d:"Editor a elenco e a nodi, correzione colore con curve e LUT, coda di esportazione MP4/MKV con più tracce.",
+  f6t:"14 lingue", f6d:"L'interfaccia segue la tua scelta; i sottotitoli possono essere tradotti in tempo reale.",
+  runtime:"Runtime proprietari e modelli IA di NVIDIA/AMD (DLSS, VFG, RTX Video, FSR, AMD NR) non sono inclusi. Senza di essi funzionano riproduzione, colore e display, ma questi miglioramenti non sono disponibili.",
+  notice:"Graphic Enhancement è una versione modificata di Veyra (Likely7/Veyra-NRVideo), distribuita sotto GNU GPL v3."},
+ pl: {name:"Polski", tagline:"Ulepszanie wideo na GPU w czasie rzeczywistym dla Windows", chips:"Super rozdzielczość · Odszumianie · HDR · Generowanie klatek · Przechwytywanie · Streaming PS5 / Xbox / PC",
+  intro:"Łączy lokalne wideo, karty przechwytywania i streaming gier w jeden potok ulepszania na GPU w czasie rzeczywistym. Działa w Windows 11 z DirectX 12 na GPU NVIDIA i AMD.",
+  download:"Pobierz (najnowsza kompilacja)", source:"Kod źródłowy", dlnote:"Otwórz ostatnią udaną kompilację i pobierz ZIP z sekcji Artifacts (wymagane logowanie do GitHub). Rozpakuj i uruchom graphicenhancement_qml_ui.exe.",
+  f1t:"Wiele źródeł", f1d:"Pliki wideo, karty przechwytywania, PS5 Remote Play, streaming z PC (Sunshine), Xbox (eksperymentalnie) i przechwytywanie ekranu.",
+  f2t:"Ulepszanie z AI", f2d:"Super rozdzielczość (DLSS, XeSS, FSR, NIS, VideoSR), wielowarstwowe odszumianie, renderowanie neuronowe DLSS 5 i RTX Video HDR.",
+  f3t:"Generowanie klatek", f3d:"DLSS FG, NVIDIA VFG, FSR, XeSS, RIFE i AMD FRC z synchronizacją ekranu i VRR.",
+  f4t:"Niskie opóźnienie wejścia", f4d:"Startuje z kolejką prezentacji 1 klatki i NVIDIA Low Latency (Reflex), gdy jest dostępne.",
+  f5t:"Edycja i eksport", f5d:"Edytory listy i węzłów, korekcja kolorów krzywymi i LUT, kolejka eksportu MP4/MKV z wieloma ścieżkami.",
+  f6t:"14 języków", f6d:"Interfejs używa wybranego języka; napisy można tłumaczyć na żywo.",
+  runtime:"Zastrzeżone środowiska i modele AI NVIDIA/AMD (DLSS, VFG, RTX Video, FSR, AMD NR) nie są dołączone. Bez nich działa odtwarzanie, kolor i wyświetlanie, ale te ulepszenia są niedostępne.",
+  notice:"Graphic Enhancement to zmodyfikowana wersja Veyra (Likely7/Veyra-NRVideo), udostępniana na licencji GNU GPL v3."},
+ id: {name:"Bahasa Indonesia", tagline:"Peningkatan video GPU waktu nyata untuk Windows", chips:"Super resolusi · Pengurangan noise · HDR · Generasi frame · Tangkapan · Streaming PS5 / Xbox / PC",
+  intro:"Menggabungkan video lokal, kartu tangkap, dan streaming game dalam satu pipeline peningkatan GPU waktu nyata. Berjalan di Windows 11 dengan DirectX 12 pada GPU NVIDIA dan AMD.",
+  download:"Unduh (build terbaru)", source:"Kode sumber", dlnote:"Buka build terbaru yang berhasil dan unduh ZIP di bagian Artifacts (perlu masuk ke GitHub). Ekstrak lalu jalankan graphicenhancement_qml_ui.exe.",
+  f1t:"Banyak sumber", f1d:"File video, kartu tangkap, PS5 Remote Play, streaming PC (Sunshine), Xbox (eksperimental), dan tangkapan layar.",
+  f2t:"Peningkatan AI", f2d:"Super resolusi (DLSS, XeSS, FSR, NIS, VideoSR), pengurangan noise berlapis, rendering neural DLSS 5, dan RTX Video HDR.",
+  f3t:"Generasi frame", f3d:"DLSS FG, NVIDIA VFG, FSR, XeSS, RIFE, dan AMD FRC dengan sinkronisasi layar dan VRR.",
+  f4t:"Input lag rendah", f4d:"Dimulai dengan antrean presentasi 1 frame dan NVIDIA Low Latency (Reflex) bila tersedia.",
+  f5t:"Sunting dan ekspor", f5d:"Editor daftar dan node, grading warna dengan kurva dan LUT, antrean ekspor MP4/MKV dengan banyak trek.",
+  f6t:"14 bahasa", f6d:"Antarmuka mengikuti pilihan Anda; subtitle dapat diterjemahkan secara langsung.",
+  runtime:"Runtime dan model AI eksklusif NVIDIA/AMD (DLSS, VFG, RTX Video, FSR, AMD NR) tidak disertakan. Tanpa itu pemutaran, warna, dan tampilan tetap berfungsi, tetapi peningkatan tersebut tidak tersedia.",
+  notice:"Graphic Enhancement adalah versi modifikasi dari Veyra (Likely7/Veyra-NRVideo), dirilis di bawah GNU GPL v3."}
+};
+
+// Browser language decides (e.g. en-US -> English, tr-TR -> Türkçe); ?lang= and the menu override it.
+function pick(tag) {
+  if (!tag) return null;
+  const t = tag.toLowerCase();
+  if (t.startsWith("zh")) return /(tw|hk|mo|hant)/.test(t) ? "zh-TW" : "zh-CN";
+  if (t.startsWith("pt")) return "pt-BR";
+  const base = t.split("-")[0];
+  return T[base] ? base : null;
+}
+function detect() {
+  const q = new URLSearchParams(location.search).get("lang");
+  if (q && (T[q] || pick(q))) return T[q] ? q : pick(q);
+  try { const saved = localStorage.getItem("ge-lang"); if (saved && T[saved]) return saved; } catch (e) {}
+  for (const l of (navigator.languages || [navigator.language])) { const p = pick(l); if (p) return p; }
+  return "en";
+}
+function apply(code) {
+  const d = T[code];
+  document.documentElement.lang = code;
+  document.querySelectorAll("[data-i]").forEach(el => { const k = el.dataset.i; if (d[k]) el.textContent = d[k]; });
+  document.title = "Graphic Enhancement · " + d.tagline;
+  sel.value = code;
+}
+const sel = document.getElementById("lang");
+for (const [code, d] of Object.entries(T)) sel.add(new Option(d.name, code));
+sel.addEventListener("change", () => { try { localStorage.setItem("ge-lang", sel.value); } catch (e) {} apply(sel.value); });
+apply(detect());
+</script>
+</body>
+</html>
