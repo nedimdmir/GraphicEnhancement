@@ -314,7 +314,7 @@ bool QmlPlayerBridge::setPreference(const QString& key, const QVariant& value) {
         stored = name;
     } else if (key == QLatin1String("language")) {
         const QString v = value.toString();
-        static const QStringList languages{"auto", "zh-CN", "zh-TW", "en", "ja", "ko", "es", "fr", "de", "pt-BR", "ru", "tr", "it"};
+        static const QStringList languages{"auto", "zh-CN", "zh-TW", "en", "ja", "ko", "es", "fr", "de", "pt-BR", "ru", "tr", "pl", "it"};
         if (!languages.contains(v)) return false;
         stored = v;
     } else if (key == QLatin1String("monitorGpu")) {

@@ -333,6 +333,7 @@ VPage {
                                     { id: "pt-BR", label: "Português (Brasil)" },
                                     { id: "ru", label: "Русский" },
                                     { id: "tr", label: "Türkçe" },
+                                    { id: "pl", label: "Polski" },
                                     { id: "it", label: "Italiano" }
                                 ]
                                 value: (options.find(o => o.id === (graphicenhancement.preferences.language || "auto")) || options[0]).label
