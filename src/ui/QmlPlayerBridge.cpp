@@ -352,6 +352,10 @@ QmlPlayerBridge::QmlPlayerBridge(engine::EngineController& engine, std::filesyst
             pr.outputRate = static_cast<engine::OutputRateMode>(std::clamp(saved.value(QStringLiteral("outputRate")).toInt(), 0, 2));
             pr.customFps = std::clamp(saved.value(QStringLiteral("customFps"), 60.0).toDouble(), 1.0, 1000.0);
             pr.variableRefresh = saved.value(QStringLiteral("vrr")).toBool();
+        } else {
+            // First run: start with the lowest input lag (1-frame queue, NVIDIA Reflex where available).
+            pr.nvidiaLowLatency = nvidiaLowLatencyAvailable() ? engine::NvidiaLowLatency::On : engine::NvidiaLowLatency::Off;
+            pr.enabled = true;
         }
         if (pr.valid()) impl_->engine.requestPresentation(pr);
         impl_->aspectMode = std::clamp(impl_->prefs.value(QStringLiteral("aspect")).toInt(), 0, 6);
