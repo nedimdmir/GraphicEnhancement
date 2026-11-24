@@ -66,6 +66,7 @@ Name: "fr"; MessagesFile: "compiler:Languages\French.isl"
 Name: "de"; MessagesFile: "compiler:Languages\German.isl"
 Name: "ptbr"; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl"
 Name: "ru"; MessagesFile: "compiler:Languages\Russian.isl"
+Name: "tr"; MessagesFile: "compiler:Languages\Turkish.isl"
 
 [CustomMessages]
 en.CloseGraphicEnhancement=Close the GraphicEnhancement instance in this folder and try again.

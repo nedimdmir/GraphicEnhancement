@@ -331,7 +331,8 @@ VPage {
                                     { id: "fr", label: "Français" },
                                     { id: "de", label: "Deutsch" },
                                     { id: "pt-BR", label: "Português (Brasil)" },
-                                    { id: "ru", label: "Русский" }
+                                    { id: "ru", label: "Русский" },
+                                    { id: "tr", label: "Türkçe" }
                                 ]
                                 value: (options.find(o => o.id === (graphicenhancement.preferences.language || "auto")) || options[0]).label
                                 onPicked: id => graphicenhancement.setPreference("language", id)

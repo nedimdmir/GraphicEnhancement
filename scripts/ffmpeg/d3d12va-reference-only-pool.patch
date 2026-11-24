@@ -20,7 +20,7 @@ previous frame's slots.
 
 Signed-off-by: Kacper Michajłow <kasper93@gmail.com>
 
-GraphicEnhancement backport note: upstream commit
+Veyra backport note: upstream commit
 bcd2c69e087a09b07cf45c6bd2428ee1ccb2925c applied unchanged to FFmpeg n9.0.1
 (vcpkg 9.0.1#1); the n9.0.1 preimage blob is identical (4e714efb1a1a).
 ---

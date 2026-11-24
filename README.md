@@ -31,6 +31,10 @@ enhancement pipeline. It runs on Windows 11 with DirectX 12 on NVIDIA and AMD GP
 - **Editing modes:** Professional List mode and an executable Node editor.
 - **Export:** ordered queue, trimming, MP4/MKV, multiple audio and subtitle tracks.
 - **Extras:** live captions and translation, recording, OBS filter, virtual camera.
+- **Languages:** Simplified and Traditional Chinese, English, Japanese, Korean, Spanish, French,
+  German, Portuguese (Brazil), Russian and **Turkish** (new in this fork).
+- **NVIDIA / AMD runtimes:** DLSS, DLSS 5 neural rendering (NR), VFG, RTX Video SR/HDR, FSR and
+  AMD NR need their vendor runtime files; the GPU driver alone does not include all of them.
 
 ## Changes compared to upstream
 

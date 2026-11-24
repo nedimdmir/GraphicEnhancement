@@ -102,7 +102,7 @@
  
      AVD3D12VAFrame *in_d3d12_frame = (AVD3D12VAFrame *)input_frame->data[0];
 +
-+    /* GraphicEnhancement: only reuse an allocator after its submission completes. Keep
++    /* Veyra: only reuse an allocator after its submission completes. Keep
 +     * decoder/reference frames alive until that same fence. No per-pass wait. */
 +    const unsigned slot = (unsigned)((s->fence_value - 1) % 8);
 +    if (s->slot_fences[slot] && ID3D12Fence_GetCompletedValue(s->fence) < s->slot_fences[slot]) {
