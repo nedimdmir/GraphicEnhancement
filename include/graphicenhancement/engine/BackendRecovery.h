@@ -1,0 +1,89 @@
+#pragma once
+#include "graphicenhancement/engine/EnhancementSettings.h"
+
+namespace graphicenhancement::engine {
+enum class FailedBackend { None, Infrastructure, OpticalFlow, NgxCore, Nr, Sr, Fg, VideoHdr, Dlaa };
+// NGX 310.9.1 definitions. A failure on 566.07 alone does not establish a
+// universal minimum driver. Preserve the real result and suggest recovery.
+constexpr const wchar_t* ngxFailureHint(uint64_t result) {
+    switch(uint32_t(result)) {
+    case 0xBAD00002:return L"平台或驱动初始化失败；请更新 NVIDIA 驱动或选择兼容运行库";
+    case 0xBAD00001:return L"显卡、驱动或运行库不支持所选功能";
+    default:return L"初始化失败；详细原因见诊断日志";
+    }
+}
+// amdNr: the adapter is AMD, where NR runs on the lmxxf runtime (the graph
+// selects it for every NR layer; an unsupported RX model fails in its own
+// open/admits and is reported like any other NR backend failure).
+inline bool disableUnsupportedNvidiaEffects(EnhancementSettings& settings,bool nvidia,bool amdNr=false){
+    const auto before=settings;
+    settings.sr=settings.sr&&videoSrRunsOn(settings.videoSrQuality,nvidia,amdNr);
+    if(nvidia)return settings.sr!=before.sr;
+    if(!amdNr)settings.nr=false;
+    // NVOF does not exist on these adapters; NR motion uses AMD FidelityFX flow.
+    if(amdNr&&settings.nr&&settings.opticalFlowBackend==OpticalFlowBackend::Nvidia)
+        settings.opticalFlowBackend=OpticalFlowBackend::AmdFidelityFx;
+    settings.videoHdr.enabled=false;
+    if(settings.frameGenerationBackend==FrameGenerationBackend::Dlss)settings.multiplier=1;
+    return settings!=before;
+}
+// A stage that only an NVIDIA adapter can run is still requested: NR outside
+// the AMD runtime, unsupported SR, and frame generation other than the
+// cross-vendor XeSS/FSR providers.
+inline bool nvidiaOnlyStagesRequested(bool nr,bool sr,bool fg,const EnhancementSettings& settings,bool amdNr){
+    return (nr&&!amdNr)||(sr&&!videoSrRunsOn(settings.videoSrQuality,false,amdNr))||
+        (fg&&!crossVendorFrameGeneration(settings.frameGenerationBackend));
+}
+inline const wchar_t* backendFailureName(FailedBackend backend) {
+    switch(backend){
+    case FailedBackend::OpticalFlow:return L"光流";
+    case FailedBackend::NgxCore:return L"NGX 核心";
+    case FailedBackend::Nr:return L"NR";
+    case FailedBackend::Sr:return L"超分";
+    case FailedBackend::Fg:return L"帧生成";
+    case FailedBackend::VideoHdr:return L"RTX Video HDR";
+    case FailedBackend::Dlaa:return L"DLAA";
+    default:return L"GPU / 输入 / 显示资源";
+    }
+}
+// Disable only the failed feature and its consumers. Never substitute zero
+// motion for a failed optical-flow backend while claiming normal enhancement.
+inline bool disableFailedBackend(EnhancementSettings& settings,FailedBackend backend){
+    const auto before=settings;
+    const auto disableDlaa=[&] {
+        if(settings.antiAlias.usesDlaa())settings.antiAlias.enabled=false;
+        for(auto& aa:settings.additionalAntiAlias)
+            if(aa.usesDlaa())aa.enabled=false;
+    };
+    switch(backend){
+    case FailedBackend::Dlaa:disableDlaa();break;
+    case FailedBackend::VideoHdr:settings.videoHdr.enabled=false;break;
+    case FailedBackend::Nr:settings.nr=false;break;
+    case FailedBackend::Sr:settings.sr=false;break;
+    // FSR 4 ML needs an RX 9000 whose driver provider offers the ML version.
+    // Without it FSR 3.1 (any DirectX 12 GPU) keeps 2X frame generation running
+    // instead of turning it off; the caller says so. A failing FSR 3.1 then
+    // turns frame generation off as before.
+    case FailedBackend::Fg:
+        if(settings.frameGenerationBackend==FrameGenerationBackend::Fsr4)settings.frameGenerationBackend=FrameGenerationBackend::Fsr;
+        else settings.multiplier=1;
+        break;
+    case FailedBackend::NgxCore:
+        disableDlaa();
+        settings.videoHdr.enabled=false;
+        settings.nr=false;
+        if(!videoSrRunsOn(settings.videoSrQuality,false,true)||
+           (settings.dualSrEnabled&&!videoSrRunsOn(settings.dualSrQuality,false,true)))settings.sr=false;
+        if(settings.frameGenerationBackend==FrameGenerationBackend::Dlss)settings.multiplier=1;
+        break;
+    case FailedBackend::OpticalFlow:
+        disableDlaa();
+        settings.nr=false;settings.multiplier=1;
+        // DLSS SR as the base or the second of a double SR.
+        if(!settings.videoSrQuality||(settings.dualSrEnabled&&!settings.dualSrQuality))settings.sr=false;
+        break;
+    default:return false;
+    }
+    return settings!=before;
+}
+}
